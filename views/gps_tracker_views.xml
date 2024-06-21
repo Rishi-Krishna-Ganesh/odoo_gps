@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="view_gps_data_tree" model="ir.ui.view">
+            <field name="name">gps.data.tree</field>
+            <field name="model">gps.data</field>
+            <field name="arch" type="xml">
+                <tree string="GPS Data">
+                    <field name="latitude"/>
+                    <field name="longitude"/>
+                    <field name="timestamp"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gps_data_form" model="ir.ui.view">
+            <field name="name">gps.data.form</field>
+            <field name="model">gps.data</field>
+            <field name="arch" type="xml">
+                <form string="GPS Data">
+                    <sheet>
+                        <group>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                            <field name="timestamp"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id="menu_gps_tracker" name="GPS Tracker" sequence="10"/>
+        <menuitem id="menu_gps_data" name="GPS Data" parent="menu_gps_tracker" action="action_gps_data"/>
+
+        <record id="action_gps_data" model="ir.actions.act_window">
+            <field name="name">GPS Data</field>
+            <field name="res_model">gps.data</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

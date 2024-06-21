@@ -1,0 +1,47 @@
+<odoo>
+    <template id="assets_frontend" inherit_id="web.assets_frontend" name="gps_tracker_assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript">
+                function sendLocation(latitude, longitude) {
+                    fetch('/gps/track', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            latitude: latitude,
+                            longitude: longitude
+                        })
+                    }).then(response => response.json())
+                      .then(data => console.log(data));
+                }
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.watchPosition(function(position) {
+                            const latitude = position.coords.latitude;
+                            const longitude = position.coords.longitude;
+                            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                            sendLocation(latitude, longitude);
+                        }, function(error) {
+                            console.error("Error Code = " + error.code + " - " + error.message);
+                        });
+                    } else {
+                        console.log("Geolocation is not supported by this browser.");
+                    }
+                }
+
+                window.onload = getLocation;
+            </script>
+        </xpath>
+    </template>
+
+    <template id="gps_tracker_page" name="GPS Tracker Page">
+        <t t-call="web.layout">
+            <div class="oe_structure">
+                <h1>GPS Tracker</h1>
+                <p>Sending location data to the server...</p>
+            </div>
+        </t>
+    </template>
+</odoo>
